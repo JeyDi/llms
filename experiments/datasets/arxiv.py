@@ -32,7 +32,7 @@ def manual_import(output_folder: str = "./data/arxiv/dataset", dataset_raw: str 
     Returns:
         pd.Dataframe: pandas dataframe
     """
-    cols = ["id", "title", "abstract", "categories"]
+    cols = ["id", "title", "abstract", "categories", "journal-ref", "submitter", "authors", "doi"]
     data = []
     file_name = os.path.join(dataset_raw, "arxiv-metadata-oai-snapshot.json")
 
@@ -41,25 +41,14 @@ def manual_import(output_folder: str = "./data/arxiv/dataset", dataset_raw: str 
         f.seek(0)  # Reset the file pointer to the beginning
         for line in tqdm(f, total=total_lines):
             doc = json.loads(line)
-            lst = [
-                doc["id"],
-                doc["doi"],
-                doc["title"],
-                doc["abstract"],
-                doc["categories"],
-                doc["journal-ref"],
-                doc["submitter"],
-                doc["authors"],
-            ]
+            lst = [doc[col] for col in cols]
             data.append(lst)
 
     df_data = pd.DataFrame(data=data, columns=cols)
 
     print(df_data.shape)
 
-    df_data.head()
-
-    output_file = os.path.join(output_folder, dataset.parquet)
+    output_file = os.path.join(output_folder, "dataset.parquet")
     df_data.to_parquet(output_file)
 
     return df_data
