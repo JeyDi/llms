@@ -6,7 +6,7 @@
   "python.testing.pytestEnabled": true,
   "files.autoSave": "afterDelay",
   "autoDocstring.customTemplatePath": "",
-  "window.title": "PBG Bear | ${rootName} ${separator} ${activeEditorShort}",
+  "window.title": "JeyDi LLMs | ${rootName} ${separator} ${activeEditorShort}",
   "[python]": {
     "editor.insertSpaces": true,
     "editor.tabSize": 4
