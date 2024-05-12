@@ -6,7 +6,7 @@ from datasets import load_dataset
 from tqdm import tqdm
 
 
-def manual_import(dataset_raw: str = "./data/arxiv/raw"):
+def manual_import(output_folder: str = "./data/arxiv/dataset", dataset_raw: str = "./data/arxiv/raw"):
     """Manual import the arxiv dataset from the json file.
 
     Columns:
@@ -41,7 +41,16 @@ def manual_import(dataset_raw: str = "./data/arxiv/raw"):
         f.seek(0)  # Reset the file pointer to the beginning
         for line in tqdm(f, total=total_lines):
             doc = json.loads(line)
-            lst = [doc["id"], doc["title"], doc["abstract"], doc["categories"]]
+            lst = [
+                doc["id"],
+                doc["doi"],
+                doc["title"],
+                doc["abstract"],
+                doc["categories"],
+                doc["journal-ref"],
+                doc["submitter"],
+                doc["authors"],
+            ]
             data.append(lst)
 
     df_data = pd.DataFrame(data=data, columns=cols)
@@ -49,6 +58,10 @@ def manual_import(dataset_raw: str = "./data/arxiv/raw"):
     print(df_data.shape)
 
     df_data.head()
+
+    output_file = os.path.join(output_folder, dataset.parquet)
+    df_data.to_parquet(output_file)
+
     return df_data
 
 
