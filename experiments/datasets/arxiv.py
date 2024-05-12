@@ -1,11 +1,30 @@
-import os
 import json
-from datasets import load_dataset
+import os
+
 import pandas as pd
+from datasets import load_dataset
+from tqdm import tqdm
 
 
 def manual_import(dataset_raw: str = "./data/arxiv/raw"):
     """Manual import the arxiv dataset from the json file.
+
+    Columns:
+        - id: ArXiv ID (can be used to access the paper, see below)
+        - submitter: Who submitted the paper
+        - authors: Authors of the paper
+        - title: Title of the paper
+        - comments: Additional info, such as number of pages and figures
+        - journal-ref: Information about the journal the paper was published in
+        - doi: [https://www.doi.org](Digital Object Identifier)
+        - abstract: The abstract of the paper
+        - categories: Categories / tags in the ArXiv system
+        - versions: A version history
+
+        You can access each paper directly on ArXiv using these links:
+
+            https://arxiv.org/abs/{id}: Page for this paper including its abstract and further links
+            https://arxiv.org/pdf/{id}: Direct link to download the PDF
 
     Args:
         dataset_raw (str, optional): the folder there the json is written and located. Defaults to "./data/arxiv/raw".
@@ -18,7 +37,9 @@ def manual_import(dataset_raw: str = "./data/arxiv/raw"):
     file_name = os.path.join(dataset_raw, "arxiv-metadata-oai-snapshot.json")
 
     with open(file_name, encoding="latin-1") as f:
-        for line in f:
+        total_lines = sum(1 for _ in f)
+        f.seek(0)  # Reset the file pointer to the beginning
+        for line in tqdm(f, total=total_lines):
             doc = json.loads(line)
             lst = [doc["id"], doc["title"], doc["abstract"], doc["categories"]]
             data.append(lst)
