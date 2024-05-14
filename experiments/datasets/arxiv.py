@@ -54,6 +54,18 @@ def manual_import(output_folder: str = "./data/arxiv/dataset", dataset_raw: str 
     return df_data
 
 
+def load_parquet_dataset(file_path: str):
+    """Load the parquet dataset from the file path.
+
+    Args:
+        file_path (str): the path to the parquet file
+
+    Returns:
+        pd.DataFrame: the dataframe
+    """
+    return pd.read_parquet(file_path)
+
+
 def load_arxiv(output_folder: str = "./data/arxiv/dataset", dataset_raw: str = "./data/arxiv/raw"):
     """Load arxiv dataset from hugging face and save it as parquet.
 
@@ -91,5 +103,8 @@ def load_arxiv(output_folder: str = "./data/arxiv/dataset", dataset_raw: str = "
 
 if __name__ == "__main__":
     print("Hello from arxiv.py!")
-    dataset = manual_import()
+    # dataset = manual_import()
     # dataset = load_arxiv() #using the hugging face dataset is not working
+    dataset = load_parquet_dataset("./data/arxiv/dataset/dataset.parquet")
+    print(dataset.shape)
+    print(dataset.head())

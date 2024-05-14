@@ -49,12 +49,12 @@ numpy = "^1.26.4"
 qdrant-client = "^1.9.1"
 torch = "^2.3.0"
 tensorflow = "^2.16.1"
-datasets = "^2.19.1"
 pandas = "^2.2.2"
 pyarrow = "^16.0.0"
 duckdb = "^0.10.2"
 ruff = "^0.4.4"
 tqdm = "^4.66.4"
+fastembed = "^0.2.7"
 
 
 [tool.poetry.group.docs.dependencies]
