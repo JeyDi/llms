@@ -22,7 +22,7 @@ def generation_fastembed(input_data: List[str]):
     # This will trigger the model download and initialization
     embedding_model = TextEmbedding(model_name="BAAI/bge-large-en-v1.5")
 
-    embeddings_generator = embedding_model.embed(input_data)  # reminder this is a generator
+    # embeddings_generator = embedding_model.embed(input_data)  # reminder this is a generator
     embeddings_list = list(embedding_model.embed(input_data))
     # you can also convert the generator to a list, and that to a numpy array
     len(embeddings_list[0])  # Vector of 384 dimensions
@@ -54,33 +54,7 @@ def generation_hugging_face(input_data: List[str]):
     embeddings = model_output.last_hidden_state[:, 0, :]
 
     # Convert the tensor to a list of lists of floats
-    embeddings = embeddings.cpu().numpy().tolist()
-
-    return embeddings
-
-    # load base model
-    # model = AutoAdapterModel.from_pretrained('allenai/specter2_base')
-
-    # load the adapter(s) as per the required task, provide an identifier for the adapter in load_as argument and activate it
-    # model.load_adapter("allenai/specter2", source="hf", load_as="specter2", set_active=True)
-
-    # Tokenizza i dati di input
-    # encoded_input = tokenizer.tokenizer(input_data, return_tensors="pt", padding=True, truncation=True)
-
-    # Sposta gli input su GPU (se disponibile)
-    # encoded_input = encoded_input.to(DEVICE)
-
-    # Genera gli embeddings
-    # with torch.no_grad():
-    # model_output = model(**encoded_input)
-
-    # Estrai gli embeddings dai token [CLS]
-    # sentence_embeddings = model_output.last_hidden_state[:, 0, :]
-
-    # Normalizza gli embeddings utilizzando la norma L2
-    # normalized_embeddings = torch.nn.functional.normalize(sentence_embeddings, p=2, dim=1)
-
-    # return normalized_embeddings
+    return embeddings.cpu().numpy().tolist()
 
 
 def generate_openai(input_data: List[str], model: str = "text-embedding-ada-002"):

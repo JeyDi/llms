@@ -1,10 +1,9 @@
-from experiments.config import settings
-
-from experiments.embeddings.generate import generate_openai
-
 import lancedb
-from lancedb.pydantic import LanceModel, Vector
 from lancedb.embeddings import get_registry
+from lancedb.pydantic import LanceModel, Vector
+
+from experiments.config import settings
+from experiments.embeddings.generate import generate_openai
 
 db = lancedb.connect("/tmp/db")
 func = get_registry().get("openai").create(name="text-embedding-ada-002")
