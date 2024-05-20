@@ -53,6 +53,9 @@ def generation_hugging_face(input_data: List[str]):
     # Extract the embeddings from the [CLS] tokens
     embeddings = model_output.last_hidden_state[:, 0, :]
 
+    # Convert the tensor to a list of lists of floats
+    embeddings = embeddings.cpu().numpy().tolist()
+
     return embeddings
 
     # load base model
@@ -91,8 +94,10 @@ def generate_openai(input_data: List[str], model: str = "text-embedding-ada-002"
 
 
 if __name__ == "__main__":
-    # result = generation_hugging_face(["This is a test sentence", "This is another test sentence"])
+    result = generation_hugging_face(["This is a test sentence", "This is another test sentence"])
     # print(TextEmbedding.list_supported_models())
     # result = generation_fastembed(["This is a test sentence", "This is another test sentence"])
-    result = generate_openai(["This is a test sentence", "This is another test sentence"])
-    print(result)
+    # result = generate_openai(["This is a test sentence", "This is another test sentence"])
+    print("\nGeneration complete.")
+    print(f"Embedding dimension: {len(result[0])}")
+    print(f"\nExample:{result[0]}")
