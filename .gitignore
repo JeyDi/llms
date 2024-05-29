@@ -13,6 +13,9 @@
 .pdm.toml
 .ruff_cache
 .env
+data
+model
+models
 
 #We don't want to push the data
 *.csv

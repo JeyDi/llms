@@ -5,6 +5,7 @@ from functools import lru_cache
 
 import ecs_logging
 import openai
+from huggingface_hub import login
 from loguru import logger
 from pydantic_settings import BaseSettings
 
@@ -33,7 +34,10 @@ class Settings(BaseSettings):
     ECS_LOG_PATH: str = f"./logs/elastic-{os.getpid()}.log"
     PROFILE: bool = False
 
+    # Models
     OPENAI_KEY: str = ""
+    HUGGING_FACE_TOKEN: str = ""
+    MISTRAL_MODEL_PATH: str = os.path.join(os.path.abspath("./model"), "mistral", "7B-v0.3")
 
     # Qdrant
     CACHE_PATH: str = "./data/qdrant/cache"
@@ -55,6 +59,11 @@ class Settings(BaseSettings):
     def _configure_openai(self, openai_key) -> bool:
         self.OPENAI_KEY = openai_key
         openai.api_key = self.OPENAI_KEY
+
+    def _authenticate_hugging_face(self, hugging_face_token: str = None) -> bool:
+        if hugging_face_token:
+            self.HUGGING_FACE_TOKEN = hugging_face_token
+        login(token=self.HUGGING_FACE_TOKEN)
 
     def _setup_logger(self) -> bool:
         # logger.remove() to remove default logging to StdErr
