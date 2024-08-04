@@ -61,6 +61,8 @@ pydantic-core = "^2.18.3"
 pydantic = "^2.7.2"
 pydantic-settings = "^2.2.1"
 annotated-types = "^0.7.0"
+pyaudio = "^0.2.14"
+pydub = "^0.25.1"
 
 
 [tool.poetry.group.docs.dependencies]
